@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "User Registration",
+    "description": "Allow users to create accounts, providing their personal information and blood type."
+  },
+  {
+    "id": 2,
+    "name": "Blood Donation Search",
+    "description": "Implement a search functionality for users to find nearby blood donation centers or events."
+  },
+  {
+    "id": 3,
+    "name": "Donor Profiles",
+    "description": "Enable donors to create profiles, showcasing their donation history and encouraging others."
+  },
+  {
+    "id": 4,
+    "name": "Notification System",
+    "description": "Incorporate a notification system to alert users about upcoming donation events or urgent blood needs."
+  },
+  {
+    "id": 5,
+    "name": "Blood Type Compatibility",
+    "description": "Include a feature that helps match donors with recipients based on blood type compatibility."
+  },
+  {
+    "id": 6,
+    "name": "Donation Tracking",
+    "description": "Provide a tracking system for donors to monitor and review their donation history and impact."
+  }
+]
