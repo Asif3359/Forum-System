@@ -6,9 +6,9 @@ import { FaGoogle } from "react-icons/fa";
 import useAuth from "../../Hooks/UseAuth";
 import { toast } from "react-toastify";
 
-const JoinUs = () => {
+const Register = () => {
 
-    const { googleSignIn, signIn } = useAuth();
+    const { googleSignIn, createUser, updateUserProfile } = useAuth();
     const {
         register,
         handleSubmit,
@@ -18,20 +18,32 @@ const JoinUs = () => {
     } = useForm();
 
     const onSubmit = (data) => {
-        signIn(data.email, data.password)
+        createUser(data.email, data.password)
             .then(result => {
-                const user = result.user;
-                console.log(user);
-                toast.success(' Successfully Logged In', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
+                const loggedUser = result.user;
+                updateUserProfile(data.name, data.photoURL)
+                    .then(() => {
+
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
+                        console.log(userInfo);
+                        toast.success(' Successfully Logged In', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        });
+                    })
+                    .catch(error => console.log(error))
+            })
+            .catch(error => {
+                console.log(error);
             })
     }
 
@@ -70,6 +82,20 @@ const JoinUs = () => {
 
                         <div className="form-control">
                             <label className="label">
+                                <span className="label-text">Name</span>
+                            </label>
+                            <input type="text"  {...register("name", { required: true })} name="name" placeholder="Your Name" className="input input-bordered" />
+                            {errors.email && <span className="text-red-600">Email is required</span>}
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Photo Url</span>
+                            </label>
+                            <input type="text"  {...register("photoURL", { required: true })} name="photoURL" placeholder="Your Photo Url" className="input input-bordered" />
+                            {errors.email && <span className="text-red-600">Email is required</span>}
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
                             <input type="email"  {...register("email", { required: true })} name="email" placeholder="email@gmail.com" className="input input-bordered" />
@@ -81,9 +107,14 @@ const JoinUs = () => {
                             </label>
                             <input type="password" {...register("password", {
                                 required: true,
+                                minLength: 6,
+                                maxLength: 20,
+                                pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/
                             })} placeholder="••••••••" className="input input-bordered" />
                             {errors.password?.type === 'required' && <p className="text-red-600">Password is required</p>}
-
+                            {errors.password?.type === 'minLength' && <p className="text-red-600">Password must be 6 characters</p>}
+                            {errors.password?.type === 'maxLength' && <p className="text-red-600">Password must be less than 20 characters</p>}
+                            {errors.password?.type === 'pattern' && <p className="text-red-600">Password must have one Uppercase one lower case, one number and one special character.</p>}
                         </div>
                         <div className="flex items-center justify-between mt-2">
                             <div className="flex items-start">
@@ -99,13 +130,11 @@ const JoinUs = () => {
                         <div className="form-control mt-6">
                             <input className="btn  btn-sm" type="submit" value="Sign Up" />
                         </div>
-                        <p>Don't have an account please! <Link to="/register" className="font-bold text-yellow-600 hover:underline">Register</Link> </p>
+                        <p>Don't have an account please! <Link to="/joinUs" className="font-bold text-yellow-600 hover:underline">Log In</Link> </p>
                         <div className="text-center">
                             <h1 className="text-xl font-bold">Log in With</h1>
                         </div>
                         <div className="divider"></div>
-
-
                     </form>
                     <div className="grid grid-cols-1 lg:grid-cols-2">
                         <button className="btn btn-sm" onClick={handleSocial}> <FaGoogle /> Google</button>
@@ -116,4 +145,4 @@ const JoinUs = () => {
     );
 };
 
-export default JoinUs;
+export default Register;

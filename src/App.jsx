@@ -15,10 +15,10 @@ function App() {
       <div>
         <NavBar></NavBar>
       </div>
-      <div className='px-4'>
+      <div className='px-2'>
         <Outlet></Outlet>
       </div>
-      <div className='px-4'>
+      <div className='px-2'>
         <Footer></Footer>
       </div>
 
