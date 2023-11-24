@@ -11,6 +11,10 @@ import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
 import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
 import AddPost from "../Pages/Dashboard/AddPost/AddPost";
 import MyPost from "../Pages/Dashboard/MyPost/MyPost";
+import AdminProfile from "../Pages/Dashboard/AdminProfile/AdminProfile";
+import ManageUser from "../Pages/Dashboard/ManageUser/ManageUser";
+import Comments from "../Pages/Dashboard/Comments/Comments";
+import Announcement from "../Pages/Dashboard/Announcement/Announcement";
 
 const router = createBrowserRouter([
     {
@@ -52,6 +56,23 @@ const router = createBrowserRouter([
             {
                 path:"myPost",
                 element:<MyPost></MyPost>
+            },
+            // admin 
+            {
+                path:"adminProfile",
+                element:<AdminProfile></AdminProfile>
+            },
+            {
+                path:"manageUser",
+                element:<ManageUser></ManageUser>
+            },
+            {
+                path:"comments",
+                element:<Comments></Comments>
+            },
+            {
+                path:"announcement",
+                element:<Announcement></Announcement>
             },
         ]
     },
