@@ -15,6 +15,7 @@ import AdminProfile from "../Pages/Dashboard/AdminProfile/AdminProfile";
 import ManageUser from "../Pages/Dashboard/ManageUser/ManageUser";
 import Comments from "../Pages/Dashboard/Comments/Comments";
 import Announcement from "../Pages/Dashboard/Announcement/Announcement";
+import PostDetails from "../Pages/Home/PostDetails/PostDetails";
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,11 @@ const router = createBrowserRouter([
             {
                 path:"/register",
                 element:<Register></Register>
+            },
+            {
+                path:"/posts/:id",
+                element:<PostDetails></PostDetails>,
+                loader:({params})=>fetch(`http://localhost:5000/posts/${params.id}`)
             },
         ]
     },

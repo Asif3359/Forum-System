@@ -1,12 +1,19 @@
 import { useForm } from "react-hook-form"
 
 import loginImage from "../../assets/logIn.jpg"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
-import useAuth from "../../Hooks/UseAuth";
+import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { useState } from "react";
 
 const Register = () => {
+
+    const axiosPublic = useAxiosPublic();
+
+    const navigate = useNavigate();
+    const [fireBaseError, setFireBaseError] = useState("");
 
     const { googleSignIn, createUser, updateUserProfile } = useAuth();
     const {
@@ -18,6 +25,7 @@ const Register = () => {
     } = useForm();
 
     const onSubmit = (data) => {
+        setFireBaseError("");
         createUser(data.email, data.password)
             .then(result => {
                 const loggedUser = result.user;
@@ -29,21 +37,31 @@ const Register = () => {
                             email: data.email
                         }
                         console.log(userInfo);
-                        toast.success(' Successfully Logged In', {
-                            position: "top-right",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        });
+
+                        axiosPublic.post('users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    reset();
+                                    toast.success(' Successfully Create  Account', {
+                                        position: "top-right",
+                                        autoClose: 5000,
+                                        hideProgressBar: false,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                        theme: "light",
+                                    });
+                                    navigate("/")
+                                }
+                            })
+
+
                     })
                     .catch(error => console.log(error))
             })
             .catch(error => {
-                console.log(error);
+                setFireBaseError(error.message);
             })
     }
 
@@ -56,16 +74,27 @@ const Register = () => {
                     name: result.user?.displayName
                 }
                 console.log(userInfo);
-                toast.success(' Successfully Logged In', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
+
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        toast.success(' Successfully Logged In', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        });
+                        navigate('/');
+                    })
+
+
+            })
+            .catch(error => {
+                setFireBaseError(error.message);
             })
     }
     return (
@@ -130,6 +159,9 @@ const Register = () => {
                         <div className="form-control mt-6">
                             <input className="btn  btn-sm" type="submit" value="Sign Up" />
                         </div>
+                        {
+                            fireBaseError ? <p className="text-red-500">{fireBaseError}</p> : <></>
+                        }
                         <p>Don't have an account please! <Link to="/joinUs" className="font-bold text-yellow-600 hover:underline">Log In</Link> </p>
                         <div className="text-center">
                             <h1 className="text-xl font-bold">Log in With</h1>
@@ -139,6 +171,7 @@ const Register = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2">
                         <button className="btn btn-sm" onClick={handleSocial}> <FaGoogle /> Google</button>
                     </div>
+
                 </div>
             </div>
         </div>

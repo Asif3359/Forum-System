@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBell } from "react-icons/fa";
-import useAuth from '../../../Hooks/UseAuth';
+import useAuth from '../../../Hooks/useAuth';
 import logo1 from "../../../assets/logo1.jpg"
 
 const NavBar = () => {

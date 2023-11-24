@@ -1,12 +1,16 @@
 import { useForm } from "react-hook-form"
 
 import loginImage from "../../assets/logIn.jpg"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
-import useAuth from "../../Hooks/UseAuth";
+import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const JoinUs = () => {
+
+    const axiosPublic = useAxiosPublic();
+    const navigate= useNavigate();
 
     const { googleSignIn, signIn } = useAuth();
     const {
@@ -32,6 +36,7 @@ const JoinUs = () => {
                     progress: undefined,
                     theme: "light",
                 });
+                navigate('/');
             })
     }
 
@@ -44,16 +49,22 @@ const JoinUs = () => {
                     name: result.user?.displayName
                 }
                 console.log(userInfo);
-                toast.success(' Successfully Logged In', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
+
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        toast.success(' Successfully Logged In', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        });
+                        navigate('/');
+                    })
             })
     }
     return (

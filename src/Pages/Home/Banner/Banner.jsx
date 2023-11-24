@@ -11,7 +11,7 @@ const Banner = () => {
                         <h1 className="mb-5 text-3xl font-bold">Please Search Your Items</h1>
                         <div className='px-10 flex flex-col gap-3 md:flex-row justify-center md:justify-start md:items-center text-black '>
                             <select className="p-3 w-full md:w-1/4  rounded-lg  ">
-                                <option disabled selected>Select </option>
+                                <option >Select </option>
                                 <option>Homer</option>
                                 <option>Marge</option>
                                 <option>Bart</option>
