@@ -1,0 +1,30 @@
+ .pagination a {
+     color: black;
+     float: left;
+     padding: 8px 16px;
+     text-decoration: none;
+     transition: background-color .3s;
+ }
+
+ .page-item .active {
+     
+     color: white;
+     padding: 8px 16px;
+ }
+ .active a{
+    border-radius: 10px;
+    background-color: dodgerblue;
+    /* color: #ddd; */
+ }
+
+ .page-item a {
+    padding: 8px 16px;
+
+ }
+
+
+
+ .page-item a:hover:not(.active) {
+     background-color: #ddd;
+     border-radius: 10px;
+ }

@@ -1,10 +1,13 @@
 import React from 'react';
 import { FaCommentAlt, FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Post = ({ item }) => {
 
-    const { postTitle, authorName, authorImg, upVote, downVote, postTag, _id } = item;
+    const { postTitle, authorName, authorImg, upVote, downVote, postTag, _id, postComments, postTime } = item;
+
+    const datePart = postTime.split('T')[0];
+    const timePart = postTime.split('T')[1].split('.')[0];
 
 
 
@@ -32,9 +35,13 @@ const Post = ({ item }) => {
                 <div>
                     <div className="badge btn btn-ghost btn-xs  gap-2">
                         <FaCommentAlt />
-                        <p>{downVote}</p>
+                        <p>{postComments.length}</p>
                     </div>
                 </div>
+            </div>
+            <div className='flex justify-between items-center '>
+                <p>{timePart}</p>
+                <p>{datePart}</p>
             </div>
         </Link>
     );

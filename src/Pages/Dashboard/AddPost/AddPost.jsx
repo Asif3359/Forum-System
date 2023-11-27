@@ -26,7 +26,7 @@ const AddPost = () => {
             postTitle: data.title,
             postDescription: data.description,
             postTag: data.tag,
-            postComments: [{}],
+            postComments: [],
             upVote: (0),
             downVote: (0),
             postTime: postTime

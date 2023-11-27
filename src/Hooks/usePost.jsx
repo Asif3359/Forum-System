@@ -9,7 +9,7 @@ const usePost = () => {
     const axiosPublic = useAxiosPublic();
 
 
-    const {data: post = [], isPending: loading, refetch} = useQuery({
+    const {data: post =[], isLoading: loading, refetch} = useQuery({
         queryKey: ['posts'], 
         queryFn: async() =>{
             const res = await axiosPublic.get('/posts');
@@ -18,7 +18,7 @@ const usePost = () => {
     })
 
 
-    return [post, loading, refetch]
+    return [post, loading, refetch];
 }
 
 export default usePost;
