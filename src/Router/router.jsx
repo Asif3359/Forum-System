@@ -16,6 +16,7 @@ import ManageUser from "../Pages/Dashboard/ManageUser/ManageUser";
 import Comments from "../Pages/Dashboard/Comments/Comments";
 import Announcement from "../Pages/Dashboard/Announcement/Announcement";
 import PostDetails from "../Pages/Home/PostDetails/PostDetails";
+import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path:"/register",
                 element:<Register></Register>
+            },
+            {
+                path:"/payment/success/:tran_id",
+                element:<PaymentSuccess></PaymentSuccess>
             },
             {
                 path:"/posts/:id",

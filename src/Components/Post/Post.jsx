@@ -13,7 +13,7 @@ const Post = ({ item }) => {
 
     return (
         <Link to={`/posts/${_id}`} className='border-2 p-4 rounded-lg space-y-4 w-full'>
-            <div className='flex justify-between items-center'>
+            <div className='flex justify-start gap-4 items-center'>
                 <img src={authorImg} alt="" className='w-16 rounded-full' />
                 <h1 className='text-xl font-bold'>{authorName}</h1>
             </div>

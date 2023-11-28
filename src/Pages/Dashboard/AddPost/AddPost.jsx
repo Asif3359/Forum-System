@@ -59,9 +59,11 @@ const AddPost = () => {
                 <div className="flex flex-col gap-2  ">
                     <select required {...register("tag", { required: true })} className=" border rounded-lg p-2">
                         <option value="">Default</option>
-                        <option value="tag1">tag1</option>
-                        <option value="tag2">tag2</option>
-                        <option value="tag3">tag3</option>
+                        <option value="tag1">tag-1</option>
+                        <option value="tag2">tag-2</option>
+                        <option value="tag3">tag-3</option>
+                        <option value="tag4">tag-4</option>
+                        <option value="tag5">tag-5</option>
                     </select>
                     {errors.tag && <span>This field is required</span>}
                 </div>

@@ -9,24 +9,35 @@ import './Home.css'
 const Home = () => {
     const [post, loading, refetch] = usePost();
     const axiosPublic = useAxiosPublic();
-    console.log(post)
+    // console.log(post)
     const [postData, setPostData] = useState([]);
     const [searchType, setSearchType] = useState('normal');
     const [pageCount, setPageCount] = useState(5);
     const [limit = 5, setLimit] = useState();
     const [currentPage = 1, setCurrentPage] = useState();
     const movies = React.useRef(null);
+    const [selectTag, setSelectTag] = useState('');
+    const [isShow, setIsShow] = useState(false);
+    const [popularTexts, setPopularTexts] = useState([]);
 
     useEffect(() => {
-        movies.current=1;
+        movies.current = 1;
         // Fetch data when the component mounts or when searchType changes
         const apiUrl = searchType === 'popular' ? '/popular' : '/posts';
         axiosPublic.get(`${apiUrl}?page=${currentPage}&limit=${limit}`)
             .then(res => {
-                console.log(res.data.pageCount)
+                // console.log(res.data.pageCount)
                 setPageCount(res.data.pageCount)
                 setPostData(res.data.result);
             });
+
+
+        axiosPublic.get(`/searchText`)
+            .then(res => {
+                console.log(res.data);
+                setPopularTexts(res.data);
+            });
+
     }, [searchType]);
 
     const handleSearchTypeChange = (event) => {
@@ -34,21 +45,58 @@ const Home = () => {
     };
 
     const handlePageClick = (e) => {
-        console.log(e);
+        // console.log(e);
         setCurrentPage(e.selected + 1)
-        movies.current=e.selected+1
+        movies.current = e.selected + 1
         const apiUrl = searchType === 'popular' ? '/popular' : '/posts';
-        axiosPublic.get(`${apiUrl}?page=${e.selected+1}&limit=${limit}`)
+        axiosPublic.get(`${apiUrl}?page=${e.selected + 1}&limit=${limit}`)
             .then(res => {
-                console.log(res.data.result)
+                // console.log(res.data.result)
                 setPostData(res.data.result);
             });
     }
 
+
+
+
+    const handleSelectTag = (e) => {
+        setSelectTag(e.target.value);
+        // `http://localhost:3001/api/posts/search?tag=${selectTag}`
+
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const from = e.target;
+        const searchText = e.target.searchText.value.toLowerCase();
+
+        const searchInfo = {
+            searchText
+        }
+        axiosPublic.post(`/searchText`, searchInfo)
+            .then(res => {
+                // console.log(res.data);
+                setIsShow(true);
+
+            })
+
+        axiosPublic.get(`/search?tag=${selectTag || searchText}`)
+            .then(res => {
+                // console.log(res.data);
+                setPostData(res.data);
+                setIsShow(true);
+                setSelectTag("");
+
+            })
+
+
+    }
+
+
     return (
         <div className='space-y-10 mb-10'>
             <div>
-                <Banner></Banner>
+                <Banner popularTexts={popularTexts} selectTag={selectTag} handleSelectTag={handleSelectTag} handleSearch={handleSearch} ></Banner>
             </div>
             <div className='mt-10 px-1 space-y-10'>
                 <div className='flex justify-between items-center '>
@@ -85,34 +133,40 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className='flex justify-center mt-4 mb-4'>
-                    <ReactPaginate
-                        className='flex gap-10 border p-5 rounded-lg  paigaination'
-                        breakLabel="..."
-                        nextLabel="next >"
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={5}
-                        pageCount={pageCount}
-                        previousLabel="< previous"
-                        renderOnZeroPageCount={handlePageClick}
-                        breakClassName="page-item"
-                        breakLinkClassName="page-link"
+                {
+                    !isShow ?
+                        <>
+                            <div className='flex justify-center mt-4 mb-4'>
+                                <ReactPaginate
+                                    className='flex gap-10 border p-5 rounded-lg  paigaination'
+                                    breakLabel="..."
+                                    nextLabel="next >"
+                                    onPageChange={handlePageClick}
+                                    pageRangeDisplayed={5}
+                                    pageCount={pageCount}
+                                    previousLabel="< previous"
+                                    renderOnZeroPageCount={handlePageClick}
+                                    breakClassName="page-item"
+                                    breakLinkClassName="page-link"
 
 
-                        marginPagesDisplayed={2}
+                                    marginPagesDisplayed={2}
 
-                        containerClassName="pagination justify-content-center"
-                        pageClassName="page-item"
-                        pageLinkClassName="page-link"
-                        previousClassName="page-item"
-                        previousLinkClassName="page-link"
-                        nextClassName="page-item"
-                        nextLinkClassName="page-link"
-                        activeClassName="active"
+                                    containerClassName="pagination justify-content-center"
+                                    pageClassName="page-item"
+                                    pageLinkClassName="page-link"
+                                    previousClassName="page-item"
+                                    previousLinkClassName="page-link"
+                                    nextClassName="page-item"
+                                    nextLinkClassName="page-link"
+                                    activeClassName="active"
 
 
-                    />
-                </div>
+                                />
+                            </div>
+                        </> : <></>
+                }
+
 
             </div>
 
