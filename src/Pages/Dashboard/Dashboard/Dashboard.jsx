@@ -28,10 +28,11 @@ const Dashboard = () => {
                         <img src={logo1} className='w-12 rounded-full border-2' alt="" />
                         <p>Something </p>
                     </div>
-                    <ul className="menu p-4    text-base-content">
+                    <ul className="menu p-4  space-y-2   text-base-content">
                         {/* Sidebar content here */}
                         <li><NavLink to="/dashboard/myProfile">My Profile</NavLink></li>
                         <li><NavLink to="/dashboard/addPost">Add Post</NavLink></li>
+                        <li><NavLink to="/dashboard/myPostTable">My Post Table</NavLink></li>
                         <li><NavLink to="/dashboard/myPost">My Post</NavLink></li>
                         <div className='divider'></div>
                         <li><NavLink to="/dashboard/adminProfile">Admin Profile</NavLink></li>

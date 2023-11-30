@@ -46,7 +46,8 @@ const JoinUs = () => {
                 console.log(result.user);
                 const userInfo = {
                     email: result.user?.email,
-                    name: result.user?.displayName
+                    name: result.user?.displayName,
+                    badgeType:'Bronze'
                 }
                 console.log(userInfo);
 

@@ -34,7 +34,8 @@ const Register = () => {
 
                         const userInfo = {
                             name: data.name,
-                            email: data.email
+                            email: data.email,
+                            badgeType:"Bronze"
                         }
                         console.log(userInfo);
 
@@ -71,7 +72,8 @@ const Register = () => {
                 console.log(result.user);
                 const userInfo = {
                     email: result.user?.email,
-                    name: result.user?.displayName
+                    name: result.user?.displayName,
+                    badgeType:"Bronze"
                 }
                 console.log(userInfo);
 

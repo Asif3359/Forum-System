@@ -1,12 +1,13 @@
 import React from 'react';
 import useAuth from '../../Hooks/useAuth';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import axios from 'axios';
 
 const Membership = () => {
 
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    
+
 
 
     const handlePayment = (e) => {
@@ -23,11 +24,22 @@ const Membership = () => {
         const paymentInfo = {
             badgeType, address, userName, userEmail, paymentDate, paymentNumber
         }
+        const badgeInfo = {
+            badgeType
+        }
         axiosSecure.post(`/member/?email=${userEmail}`, paymentInfo)
             .then(res => {
                 console.log(res.data);
-                window.location.replace(res.data.url);
+                axiosSecure.put(`/users/?email=${userEmail}`, badgeInfo)
+                    .then(res2 => {
+                        console.log(res2.data);
+                        window.location.replace(res.data.url);
+                    })
+
             })
+
+       
+
 
     }
     return (

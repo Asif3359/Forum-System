@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useLoaderData, useParams } from 'react-router-dom';
-import { FaCommentAlt, FaRegThumbsDown, FaRegThumbsUp, FaReply } from 'react-icons/fa';
+import { FaCommentAlt, FaExclamation, FaRegThumbsDown, FaRegThumbsUp, FaReply } from 'react-icons/fa';
 import { useForm } from "react-hook-form"
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import usePost from '../../../Hooks/usePost';
-import useAuth from '../../../Hooks/UseAuth';
 import { FacebookIcon, FacebookShareButton, FacebookShareCount, LinkedinIcon, LinkedinShareButton } from 'react-share';
+import useAuth from '../../../Hooks/useAuth';
 
 const PostDetails = () => {
-    const postDetails = useLoaderData();
+    const postDetails2 = useLoaderData();
+    const [postDetails, setPostDetails] = useState(postDetails2);
     const { id } = useParams();
     // const [postInfo, setPostInfo] = useState({});
 
@@ -27,6 +28,7 @@ const PostDetails = () => {
     const { user } = useAuth();
     const [seeLength, setSeeLength] = useState(3);
     const [startLength, setStartLength] = useState(0);
+    const [commentReplayCount, setCommentReplayCount] = useState(0);
 
 
 
@@ -77,9 +79,6 @@ const PostDetails = () => {
                     console.log(res.data);
                     setUpVoteValue(upVoteValue + 1)
                 })
-            if (loading) {
-                refetch();
-            }
         }
         else {
             const updatePostInfo = {
@@ -101,7 +100,7 @@ const PostDetails = () => {
                     setUpVoteValue(upVoteValue - 1)
                 })
             if (loading) {
-                refetch();
+
             }
         }
     }
@@ -127,7 +126,7 @@ const PostDetails = () => {
                     setDownVoteValue(downVoteValue + 1)
                 })
             if (loading) {
-                refetch();
+
             }
         }
         else {
@@ -150,7 +149,7 @@ const PostDetails = () => {
                     setDownVoteValue(downVoteValue - 1)
                 })
             if (loading) {
-                refetch();
+
             }
         }
     }
@@ -185,12 +184,16 @@ const PostDetails = () => {
             .then(res => {
                 console.log(res.data);
                 setCommentCount(commentCount + 1);
+                if (res.data.modifiedCount > 0) {
+                    axiosSecure.get(`/posts/${id}`)
+                        .then(res => {
+                            console.log(res.data);
+                            setPostDetails(res.data);
+                            reset();
+                        })
+                }
             })
-        if (!loading) {
-            refetch();
-        }
 
-        reset();
 
     }
 
@@ -246,18 +249,45 @@ const PostDetails = () => {
         axiosSecure.patch(`/posts/${id}/${item.commentId}/${replaysId}`, updatePostInfo)
             .then(res => {
                 console.log(res.data);
-                setCommentCount(commentCount + 1);
-            })
-        if (!loading) {
-            refetch();
-        }
+                setCommentReplayCount(item?.commentsReplay?.length + 1);
+                from.reset();
+                if (res.data.modifiedCount > 0) {
+                    axiosSecure.get(`/posts/${id}`)
+                        .then(res => {
+                            console.log(res.data);
+                            setPostDetails(res.data);
+                        })
+                }
 
-        reset();
+            })
+
+
+
+
     }
 
     // console.log(commentsReplay);
     const shareUrl = window.location.href
-    console.log(shareUrl);
+    const handleReport = (event, item) => {
+
+        const reportReason = event.target.report.value;
+
+        const reportsInfo = {
+            item,
+            reportReason
+
+        }
+        if (reportReason.length >= 5 && reportReason !== "") {
+            axiosSecure.post('/reports', reportsInfo)
+                .then(res => {
+                    console.log(res.data)
+                    // console.log(reportsInfo)
+                })
+        }
+
+    }
+
+
 
 
     return (
@@ -291,7 +321,7 @@ const PostDetails = () => {
                     <form onSubmit={handleSubmit(onSubmit)} className='relative ml-2'>
                         {
                             commentBox ? <>
-                                <textarea {...register("comment")} id='postComment' placeholder='write Your Comment hear. . .' className='w-full ml-2 p-2 h-32 border-2 rounded-lg' />
+                                <textarea {...register("comment")} id='postComment' placeholder='write Your Comment hear. . .' className='w-full ml-2 pr-10 p-2 h-32 border-2 rounded-lg' />
                                 <div className='absolute right-0 bottom-5 mr-4'>
                                     <input type='submit' value="Send" className='btn btn-sm btn-ghost  ' />
                                 </div>
@@ -302,18 +332,56 @@ const PostDetails = () => {
                     </form>
                     <div className='grid grid-cols-1 gap-5'>
                         {
-                            postComments.slice(startLength, seeLength).map((item, index) =>
+                            postComments.slice().reverse().map((item, index) =>
                                 <div key={index}>
-                                    <div className='border-2 p-2 ml-4 rounded-md'>
-                                        <div className='flex justify-start items-center gap-3 mb-3'>
-                                            <img src={item?.commentUser?.commentUserPhoto} className='w-8 rounded-full' alt="" />
-                                            <p className='mb-2 font-bold'>{item?.commentUser?.commentName}</p>
+                                    <div className='border-2 p-2  rounded-md'>
+                                        <div className="flex justify-between items-center mb-3 space-y-3 ">
+                                            <div className='flex justify-start items-center gap-3 '>
+                                                <img src={item?.commentUser?.commentUserPhoto} className='w-8 rounded-full' alt="" />
+                                                <p className='mb-2 font-bold'>{item?.commentUser?.commentName}</p>
+                                            </div>
+                                            <div>
+                                                <button className='btn btn-sm btn-ghost' onClick={() => { document.getElementById(`comment${index}`).showModal() }} > < FaExclamation /></button>
+                                            </div>
+                                            <dialog id={`comment${index}`} className="modal">
+                                                <div className="modal-box">
+                                                    <div className="modal-action block ">
+                                                        <form onSubmit={() => handleReport(event, item)} className='ml-0 space-y-2' method="dialog">
+                                                            <p className='mb-2 '>FeedBack</p>
+                                                            <input name='report' type="text" className='p-2 w-full border-2 rounded-md' placeholder='Please provide some reason at least 5' />
+                                                            <div className='flex justify-between items-center'>
+                                                                <button className="btn btn-sm mt-2">
+                                                                    <input type="button" value="Submit" />
+                                                                </button>
+                                                                <button className="btn btn-sm mt-2">close</button>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </dialog>
                                         </div>
                                         <div>
                                             <div className='flex justify-between items-center gap-3'>
                                                 <div className='flex-1'>
-                                                    <p className='ml-3'>{item.commentPost}</p>
+                                                    {
+                                                        item.commentPost.length < 200 ? <> <p className='ml-3'>{item.commentPost} </p></> :
+                                                            <> <p className='ml-3'>{item.commentPost.slice(0, 200)}<span onClick={() => document.getElementById(item.commentId).showModal()} className='btn btn-link no-underline' >...See More</span> </p></>
+                                                    }
+
                                                 </div>
+                                                <dialog id={item.commentId} className="modal">
+                                                    <div className="modal-box">
+                                                        <img src={item?.commentUser?.commentUserPhoto} className='w-8 rounded-full' alt="" />
+                                                        <p className="py-4">{item.commentPost}</p>
+                                                        <div className="modal-action">
+                                                            <form method="dialog">
+                                                                {/* if there is a button in form, it will close the modal */}
+                                                                <button className="btn">Close</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </dialog>
                                                 <button onClick={() => handleCommentReplay(!commentReplay, index)} className=" flex btn btn-ghost btn-sm  gap-2">
                                                     <p className='text-2xl'><FaReply /></p>
                                                     <p>{item?.commentsReplay?.length}</p>
@@ -325,12 +393,51 @@ const PostDetails = () => {
                                                         commentReplay && itemIndex == index ?
                                                             <div className='grid grid-cols-1 gap-6 mb-3'>
                                                                 {
-                                                                    item?.commentsReplay?.map((comment, index) => <div className='border p-2 rounded-md' key={index}>
-                                                                        <div className='flex justify-start items-center gap-2 '>
-                                                                            <img src={comment?.commentReplayUser?.replayPhoto} className='w-8 rounded-full' alt="" />
-                                                                            <p className='font-bold text-sm'>{comment?.commentReplayUser?.replayName}</p>
+                                                                    item?.commentsReplay?.slice().reverse().map((comment, index) => <div className='border p-2 rounded-md' key={index}>
+                                                                        <div className='flex justify-between items-center '>
+                                                                            <div className='flex justify-start items-center gap-2 '>
+                                                                                <img src={comment?.commentReplayUser?.replayPhoto} className='w-8 rounded-full' alt="" />
+                                                                                <p className='font-bold text-sm'>{comment?.commentReplayUser?.replayName}</p>
+                                                                            </div>
+                                                                            <div>
+                                                                                <div>
+                                                                                    <button className='btn btn-sm btn-ghost' onClick={() => { document.getElementById(`commentReplay${index}`).showModal() }} > < FaExclamation /></button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <dialog id={`commentReplay${index}`} className="modal">
+                                                                                <div className="modal-box">
+                                                                                    <div className="modal-action block ">
+                                                                                        <form onSubmit={() => handleReport(event, item)} className='ml-0 space-y-2' method="dialog">
+                                                                                            <p className='mb-2 '>FeedBack</p>
+                                                                                            <input name='report' type="text" className='p-2 w-full border-2 rounded-md' placeholder='Please provide some reason at least 5' />
+                                                                                            <div className='flex justify-between items-center'>
+                                                                                                <button className="btn btn-sm mt-2">
+                                                                                                    <input type="button" value="Submit" />
+                                                                                                </button>
+                                                                                                <button className="btn btn-sm mt-2">close</button>
+                                                                                            </div>
+                                                                                        </form>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </dialog>
                                                                         </div>
-                                                                        <p className='ml-10 '>{comment?.commentReplay}</p>
+                                                                        {
+                                                                            comment?.commentReplay?.length < 200 ? <> <p className='ml-3'>{comment?.commentReplay} </p></> :
+                                                                                <> <p className='ml-3'>{comment?.commentReplay.slice(0, 200)}<span onClick={() => document.getElementById(`Comment${comment.replaysId}`).showModal()} className='btn btn-link no-underline' >...See More</span> </p></>
+                                                                        }
+                                                                        <dialog id={`Comment${comment.replaysId}`} className="modal">
+                                                                            <div className="modal-box">
+                                                                                <img src={comment?.commentReplayUser?.replayPhoto} className='w-8 rounded-full' alt="" />
+                                                                                <p className="py-4">{comment?.commentReplay}</p>
+                                                                                <div className="modal-action">
+                                                                                    <form method="dialog">
+                                                                                        {/* if there is a button in form, it will close the modal */}
+                                                                                        <button className="btn">Close</button>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </dialog>
                                                                     </div>)
                                                                 }
                                                             </div>
@@ -342,7 +449,7 @@ const PostDetails = () => {
                                                     {
                                                         commentReplay && itemIndex == index ?
                                                             <>
-                                                                <textarea id={item.index} name='commentReplay' placeholder='write Your Comment hear. . .' className='w-full ml-2 p-2 h-20 border-2 rounded-lg' />
+                                                                <textarea id={item.index} name='commentReplay' placeholder='write Your Comment hear. . .' className='w-full ml-2 p-2 pr-10  h-20 border-2 rounded-lg' />
                                                                 <div className='absolute right-0 bottom-5 mr-4'>
                                                                     <input type='submit' value="Send" className='btn btn-sm btn-ghost  ' />
                                                                 </div>

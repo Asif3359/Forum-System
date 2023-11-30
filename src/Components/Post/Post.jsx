@@ -1,18 +1,31 @@
 import React from 'react';
 import { FaCommentAlt, FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Post = ({ item }) => {
+const Post = ({ item, location }) => {
 
     const { postTitle, authorName, authorImg, upVote, downVote, postTag, _id, postComments, postTime } = item;
 
     const datePart = postTime.split('T')[0];
     const timePart = postTime.split('T')[1].split('.')[0];
+    const navigate = useNavigate();
+    // to={`/posts/${_id}`}
 
 
+    const handleNavigate = () => {
+        if (location) {
+            console.log("ok");
+            navigate(`/dashBoard/posts/${_id}`)
+        }
+        else {
+            navigate(`/posts/${_id}`)
+        }
+    }
 
     return (
-        <Link to={`/posts/${_id}`} className='border-2 p-4 rounded-lg space-y-4 w-full'>
+        <div onClick={handleNavigate} className=' flex flex-col justify-between hover:cursor-pointer  border-2 p-4 rounded-lg space-y-4 w-full hover:bg-base-200 translate-x-10 hover:scale-105
+        
+        transition ease-in-out delay-100  hover:-translate-y-1  duration-200'>
             <div className='flex justify-start gap-4 items-center'>
                 <img src={authorImg} alt="" className='w-16 rounded-full' />
                 <h1 className='text-xl font-bold'>{authorName}</h1>
@@ -43,7 +56,7 @@ const Post = ({ item }) => {
                 <p>{timePart}</p>
                 <p>{datePart}</p>
             </div>
-        </Link>
+        </div>
     );
 };
 

@@ -17,6 +17,7 @@ const Home = () => {
     const [currentPage = 1, setCurrentPage] = useState();
     const movies = React.useRef(null);
     const [selectTag, setSelectTag] = useState('');
+    const [selectSearch, setSelectSearch] = useState('');
     const [isShow, setIsShow] = useState(false);
     const [popularTexts, setPopularTexts] = useState([]);
 
@@ -24,7 +25,7 @@ const Home = () => {
         movies.current = 1;
         // Fetch data when the component mounts or when searchType changes
         const apiUrl = searchType === 'popular' ? '/popular' : '/posts';
-        axiosPublic.get(`${apiUrl}?page=${currentPage}&limit=${limit}`)
+        axiosPublic.get(`${apiUrl}?page=${currentPage}&limit=${limit}&tag=${selectTag ||selectSearch}`)
             .then(res => {
                 // console.log(res.data.pageCount)
                 setPageCount(res.data.pageCount)
@@ -42,19 +43,12 @@ const Home = () => {
 
     const handleSearchTypeChange = (event) => {
         setSearchType(event.target.value);
+        setSelectSearch('');
+        setSelectTag('')
+        
     };
 
-    const handlePageClick = (e) => {
-        // console.log(e);
-        setCurrentPage(e.selected + 1)
-        movies.current = e.selected + 1
-        const apiUrl = searchType === 'popular' ? '/popular' : '/posts';
-        axiosPublic.get(`${apiUrl}?page=${e.selected + 1}&limit=${limit}`)
-            .then(res => {
-                // console.log(res.data.result)
-                setPostData(res.data.result);
-            });
-    }
+
 
 
 
@@ -73,6 +67,7 @@ const Home = () => {
         const searchInfo = {
             searchText
         }
+        setSelectSearch(searchText)
         axiosPublic.post(`/searchText`, searchInfo)
             .then(res => {
                 // console.log(res.data);
@@ -80,16 +75,27 @@ const Home = () => {
 
             })
 
-        axiosPublic.get(`/search?tag=${selectTag || searchText}`)
+        axiosPublic.get(`/posts?page=${currentPage}&limit=${limit}&tag=${selectTag || searchText}`)
             .then(res => {
                 // console.log(res.data);
-                setPostData(res.data);
+                setPageCount(res.data.pageCount)
+                setPostData(res.data.result);
                 setIsShow(true);
                 setSelectTag("");
 
             })
+    }
 
-
+    const handlePageClick = (e) => {
+        // console.log(e);
+        setCurrentPage(e.selected + 1)
+        movies.current = e.selected + 1
+        const apiUrl = searchType === 'popular' ? '/popular' : '/posts';
+        axiosPublic.get(`${apiUrl}?page=${e.selected + 1}&limit=${limit}&tag=${selectTag ||selectSearch}`)
+            .then(res => {
+                // console.log(res.data.result)
+                setPostData(res.data.result);
+            });
     }
 
 
@@ -126,7 +132,7 @@ const Home = () => {
                         <div>
                             <h1 className='text-center text-2xl font-bold' >All Posts</h1>
                         </div>
-                        <div className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
+                        <div className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
                             {postData.map((item, index) => (
                                 <Post key={item._id} item={item}></Post>
                             ))}
@@ -134,37 +140,36 @@ const Home = () => {
                     </div>
                 </div>
                 {
-                    !isShow ?
-                        <>
-                            <div className='flex justify-center mt-4 mb-4'>
-                                <ReactPaginate
-                                    className='flex gap-10 border p-5 rounded-lg  paigaination'
-                                    breakLabel="..."
-                                    nextLabel="next >"
-                                    onPageChange={handlePageClick}
-                                    pageRangeDisplayed={5}
-                                    pageCount={pageCount}
-                                    previousLabel="< previous"
-                                    renderOnZeroPageCount={handlePageClick}
-                                    breakClassName="page-item"
-                                    breakLinkClassName="page-link"
+
+                    <div className='flex justify-center mt-4 mb-4'>
+                        <ReactPaginate
+                            className='flex gap-10 border p-5 rounded-lg  paigaination'
+                            breakLabel="..."
+                            nextLabel="next >"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={5}
+                            pageCount={pageCount}
+                            previousLabel="< previous"
+                            renderOnZeroPageCount={handlePageClick}
+                            breakClassName="page-item"
+                            breakLinkClassName="page-link"
 
 
-                                    marginPagesDisplayed={2}
+                            marginPagesDisplayed={2}
 
-                                    containerClassName="pagination justify-content-center"
-                                    pageClassName="page-item"
-                                    pageLinkClassName="page-link"
-                                    previousClassName="page-item"
-                                    previousLinkClassName="page-link"
-                                    nextClassName="page-item"
-                                    nextLinkClassName="page-link"
-                                    activeClassName="active"
+                            containerClassName="pagination justify-content-center"
+                            pageClassName="page-item"
+                            pageLinkClassName="page-link"
+                            previousClassName="page-item"
+                            previousLinkClassName="page-link"
+                            nextClassName="page-item"
+                            nextLinkClassName="page-link"
+                            activeClassName="active"
 
 
-                                />
-                            </div>
-                        </> : <></>
+                        />
+                    </div>
+
                 }
 
 

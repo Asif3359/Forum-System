@@ -8,6 +8,8 @@ const AddPost = () => {
     const axiosPublic = useAxiosPublic();
     const { user } = useAuth();
 
+  
+
     const {
         register,
         handleSubmit,
@@ -47,6 +49,8 @@ const AddPost = () => {
                 });
                 reset();
             })
+
+            console.log(user.email)
     }
 
 

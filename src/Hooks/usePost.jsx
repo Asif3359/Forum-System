@@ -9,7 +9,7 @@ const usePost = () => {
     const axiosPublic = useAxiosPublic();
 
 
-    const {data: post =[], isLoading: loading, refetch} = useQuery({
+    const {data: post ={}, isLoading: loading, refetch} = useQuery({
         queryKey: ['posts'], 
         queryFn: async() =>{
             const res = await axiosPublic.get('/posts');
