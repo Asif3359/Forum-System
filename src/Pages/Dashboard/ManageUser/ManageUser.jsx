@@ -2,10 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { FaTrashAlt, FaUsers } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useEffect, useState } from "react";
+import useAuth from "../../../Hooks/useAuth";
 
 
 const ManageUser = () => {
     const axiosSecure = useAxiosSecure();
+    const { user } = useAuth();
+    const [ourUser, setOurUser] = useState({});
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -14,21 +18,32 @@ const ManageUser = () => {
         }
     })
 
-    const handleMakeAdmin = user => {
-        axiosSecure.patch(`/users/admin/${user._id}`)
+    useEffect(() => {
+        axiosSecure.get(`/users/${user?.email}`)
             .then(res => {
-                console.log(res.data)
-                if (res.data.modifiedCount > 0) {
-                    refetch();
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: `${user.name} is an Admin Now!`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
+                console.log(res.data);
+                setOurUser(res.data);
             })
+    }, [user])
+
+    const handleMakeAdmin = user => {
+        if (ourUser?.role == 'admin') {
+            axiosSecure.patch(`/users/admin/${user._id}`)
+                .then(res => {
+                    console.log(res.data)
+                    if (res.data.modifiedCount > 0) {
+                        refetch();
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: `${user.name} is an Admin Now!`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                })
+        }
+
     }
 
     const handleDeleteUser = user => {

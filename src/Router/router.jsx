@@ -18,6 +18,7 @@ import PostDetails from "../Pages/Home/PostDetails/PostDetails";
 import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
 import MyPostTable from "../Pages/Dashboard/MyPostTable/MyPostTable";
+import AnnouncementHome from "../Pages/Home/AnnouncementHome/AnnouncementHome";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
             {
                 path: "/membership",
                 element: <Membership></Membership>
+            },
+            {
+                path: "/announcement",
+                element: <AnnouncementHome></AnnouncementHome>
             },
             {
                 path: "/joinUs",

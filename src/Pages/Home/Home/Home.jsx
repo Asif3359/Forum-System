@@ -5,6 +5,7 @@ import Post from '../../../Components/Post/post';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import ReactPaginate from 'react-paginate';
 import './Home.css'
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const [post, loading, refetch] = usePost();
@@ -20,12 +21,13 @@ const Home = () => {
     const [selectSearch, setSelectSearch] = useState('');
     const [isShow, setIsShow] = useState(false);
     const [popularTexts, setPopularTexts] = useState([]);
+    const [announcement, setAnnouncement] = useState([]);
 
     useEffect(() => {
         movies.current = 1;
         // Fetch data when the component mounts or when searchType changes
         const apiUrl = searchType === 'popular' ? '/popular' : '/posts';
-        axiosPublic.get(`${apiUrl}?page=${currentPage}&limit=${limit}&tag=${selectTag ||selectSearch}`)
+        axiosPublic.get(`${apiUrl}?page=${currentPage}&limit=${limit}&tag=${selectTag || selectSearch}`)
             .then(res => {
                 // console.log(res.data.pageCount)
                 setPageCount(res.data.pageCount)
@@ -35,9 +37,15 @@ const Home = () => {
 
         axiosPublic.get(`/searchText`)
             .then(res => {
-                console.log(res.data);
                 setPopularTexts(res.data);
             });
+
+
+        axiosPublic.get('/announcement')
+            .then(res => {
+                console.log(res.data);
+                setAnnouncement(res.data);
+            })
 
     }, [searchType]);
 
@@ -45,7 +53,7 @@ const Home = () => {
         setSearchType(event.target.value);
         setSelectSearch('');
         setSelectTag('')
-        
+
     };
 
 
@@ -91,7 +99,7 @@ const Home = () => {
         setCurrentPage(e.selected + 1)
         movies.current = e.selected + 1
         const apiUrl = searchType === 'popular' ? '/popular' : '/posts';
-        axiosPublic.get(`${apiUrl}?page=${e.selected + 1}&limit=${limit}&tag=${selectTag ||selectSearch}`)
+        axiosPublic.get(`${apiUrl}?page=${e.selected + 1}&limit=${limit}&tag=${selectTag || selectSearch}`)
             .then(res => {
                 // console.log(res.data.result)
                 setPostData(res.data.result);
@@ -121,10 +129,48 @@ const Home = () => {
                             <option value="popular">Popular Search</option>
                         </select>
                     </div>
-                    <div className='w-1/4'>
-                        <p className='font-bold'>Announcement</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, quibusdam.</p>
-                    </div>
+                    {
+                        announcement.length > 0 ?
+                            <>
+                                <div className='w-1/4'>
+                                    {
+                                        announcement.slice(0, 1).map((item, index) => <div key={item._id}>
+                                            <div className='flex justify-start gap-2 items-center'>
+                                                <img src={item?.AuthorImage} className='w-8 rounded-full' alt="" />
+                                                <p>{item.AuthorName}</p>
+                                            </div>
+                                            <div >
+                                                <p className='font-bold text-2xl mb-3'>{item.AnnounceTitle}</p>
+                                                <div>
+                                                    {
+                                                        item?.AnnounceDescription?.length < 100 ? <> <p className='ml-3'>{item.AnnounceDescription} </p></> :
+                                                            <> <p className='ml-3'>{item?.AnnounceDescription?.slice(0, 100)}<span onClick={() => document.getElementById(`announcement${item._id}`).showModal()} className='btn btn-link no-underline' >...See More</span> </p></>
+                                                    }
+                                                </div>
+                                                <dialog id={`announcement${item._id}`} className="modal">
+                                                    <div className="modal-box max-w-6xl">
+                                                        <img src={item?.AuthorImage} className='w-8 rounded-full' alt="" />
+                                                        <p className="py-4">{item.AnnounceDescription}</p>
+                                                        <div className="modal-action">
+                                                            <form method="dialog">
+                                                                {/* if there is a button in form, it will close the modal */}
+                                                                <button className="btn">Close</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </dialog>
+                                            </div>
+                                        </div>)
+                                    }
+                                    <div>
+                                        <Link to="/announcement" className='btn btn-sm btn-link'>See All Announcement</Link>
+                                    </div>
+                                </div>
+                            </> :
+                            <></>
+                    }
+
+                    {/*  */}
                 </div>
                 <div className='block md:flex flex-row-reverse justify-between items-start  gap-3'>
                     {/* ... other code ... */}
@@ -133,9 +179,17 @@ const Home = () => {
                             <h1 className='text-center text-2xl font-bold' >All Posts</h1>
                         </div>
                         <div className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
-                            {postData.map((item, index) => (
-                                <Post key={item._id} item={item}></Post>
-                            ))}
+                            {
+                                Array.isArray(postData) ? (
+                                    postData.map(item => (
+                                        <Post key={item._id} item={item}></Post>
+                                    ))
+                                ) : (
+                                    <div className=' flex justify-center items-center'>
+                                        <p>Loading...</p>
+                                    </div> // You can add a loading indicator
+                                )
+                            }
                         </div>
                     </div>
                 </div>

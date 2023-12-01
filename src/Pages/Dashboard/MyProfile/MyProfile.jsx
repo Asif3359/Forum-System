@@ -10,6 +10,7 @@ const MyProfile = () => {
     const { user } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
     const [ourUser, setOurUser] = useState({});
+    const [feedBack, setFeedback] = useState([]);
     const location = useLocation();
 
     useEffect(() => {
@@ -30,6 +31,12 @@ const MyProfile = () => {
                     console.log(res.data)
                     setOurUser(res.data);
                 })
+
+            axiosPublic.get(`/feedback/${user.email}`)
+                .then(res => {
+                    console.log("Feedback",res.data)
+                    setFeedback(res.data);
+                })
         }
     }, [user]);
 
@@ -46,6 +53,17 @@ const MyProfile = () => {
                     <h1 className="">Badge: {ourUser?.badgeType}</h1>
                 </div>
             </div>
+            <div>
+                {
+                    Array.isArray(feedBack)?(
+                        feedBack.slice().map((item, index)=> <div key={index}>
+                            <p>  {index+1} Your FeedBack: {item.feedbackComment}</p>
+                        </div>)
+                    ):(
+                        <p>Loading ....</p>
+                    )
+                }
+            </div>
             <div className="text-center ">
                 <h1 className="text-3xl font-bold"> Recent Post</h1>
             </div>
@@ -53,7 +71,7 @@ const MyProfile = () => {
                 {
                     Array.isArray(resentPost) ? (
                         resentPost.slice(0, 3).map(item => (
-                            <Post   key={item._id} item={item} location={location}></Post>
+                            <Post key={item._id} item={item} location={location}></Post>
                         ))
                     ) : (
                         <p>Loading...</p> // You can add a loading indicator
@@ -65,3 +83,5 @@ const MyProfile = () => {
 };
 
 export default MyProfile;
+
+
