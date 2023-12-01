@@ -72,6 +72,7 @@ const ManageUser = () => {
                             <th></th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Badge</th>
                             <th>Role</th>
                             <th>Action</th>
                         </tr>
@@ -82,10 +83,11 @@ const ManageUser = () => {
                                 <th>{index + 1}</th>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
+                                <td>{user.badgeType || 'odl User'}</td>
                                 <td>
                                     {user.role === 'admin' ? 'Admin' : <button
                                         onClick={() => handleMakeAdmin(user)}
-                                        className="btn btn-lg bg-orange-500">
+                                        className="btn btn-sm bg-orange-500">
                                         <FaUsers className="text-white 
                                         text-2xl"></FaUsers>
                                     </button>}
@@ -93,7 +95,7 @@ const ManageUser = () => {
                                 <td>
                                     <button
                                         onClick={() => handleDeleteUser(user)}
-                                        className="btn btn-ghost btn-lg">
+                                        className="btn btn-ghost btn-sm">
                                         <FaTrashAlt className="text-red-600"></FaTrashAlt>
                                     </button>
                                 </td>

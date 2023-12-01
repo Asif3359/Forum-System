@@ -271,10 +271,25 @@ const PostDetails = () => {
     const handleReport = (event, item) => {
 
         const reportReason = event.target.report.value;
+        const commentPost = item.commentPost
+        const commentId = item.commentId
+        const commentUser = item.commentUser
+        const byReportUser=user.displayName
+        const byReportEmail=user.email
+        const byReportPhoto=user.photoURL
+
+        const reportUser={
+            byReportUser,
+            byReportEmail,
+            byReportPhoto
+        }
 
         const reportsInfo = {
-            item,
-            reportReason
+            commentPost,
+            commentId,
+            commentUser,
+            reportReason,
+            reportUser
 
         }
         if (reportReason.length >= 5 && reportReason !== "") {
@@ -347,7 +362,7 @@ const PostDetails = () => {
                                                 <div className="modal-box">
                                                     <div className="modal-action block ">
                                                         <form onSubmit={() => handleReport(event, item)} className='ml-0 space-y-2' method="dialog">
-                                                            <p className='mb-2 '>FeedBack</p>
+                                                            <p className='mb-2 '>Write You Issue</p>
                                                             <input name='report' type="text" className='p-2 w-full border-2 rounded-md' placeholder='Please provide some reason at least 5' />
                                                             <div className='flex justify-between items-center'>
                                                                 <button className="btn btn-sm mt-2">

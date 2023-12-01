@@ -23,7 +23,7 @@ const NavBar = () => {
                 <div className="dropdown dropdown-end ">
                     <label tabIndex={0} className="m-1 btn btn-circle "><img src={user?.photoURL} className='w-10  rounded-full' alt="" /></label>
                     <ul tabIndex={0} className=" md:dropdown-content md:z-[1] menu p-2 lg:shadow lg:bg-base-100 rounded-box lg:w-64 gap-1">
-                        <div><h2 className='p-1'>{user?.displayName}</h2></div>
+                        <div><h2 className='p-1 uppercase px-4'>{user?.displayName}</h2></div>
                         <li><NavLink to="/dashboard/myProfile">DashBoard</NavLink></li>
                         <li><button onClick={handleLogOut}>Logout</button></li>
                     </ul>
