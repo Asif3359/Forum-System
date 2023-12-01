@@ -192,7 +192,7 @@ const Home = () => {
                     </div>
                 </div>
                 {
-                    <div className='flex justify-center mt-4 mb-4'>
+                    <div className='flex justify-center mt-4 mb-4 text-sm'>
                         <ReactPaginate
                             className='flex gap-1 lg:gap-10 border p-1 lg:p-5 rounded-lg  paigaination'
                             breakLabel="..."

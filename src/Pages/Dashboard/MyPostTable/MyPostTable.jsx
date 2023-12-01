@@ -73,12 +73,12 @@ const MyPostTable = () => {
                     <h2 className="text-3xl">All Users</h2>
                     <h2 className="text-3xl">Total Users: {userPost.length}</h2>
                 </div>
-                <div className="overflow-x-auto">
-                    <table className="table table-zebra w-full">
+                <div className="overflow-x-auto ">
+                    <table className="table table-zebra w-full overscroll-auto">
                         {/* head */}
                         <thead>
                             <tr>
-                                <th></th>
+
                                 <th>Title</th>
                                 <th>Up Vote</th>
                                 <th>Comment</th>
@@ -88,11 +88,14 @@ const MyPostTable = () => {
                         <tbody>
                             {
                                 userPost.map((item, index) => <tr key={item._id}>
-                                    <th>{index + 1}</th>
+
                                     <td>{item.postTitle}</td>
                                     <td>{item.upVote}</td>
-                                    <td>
-                                        <button onClick={() => handleComment(item._id)} className='btn btn-sm '><FaCommentAlt />{item.postComments.length} </button>
+                                    <td >
+                                        <div className='relative w-9'>
+                                            <button onClick={() => handleComment(item._id)} className='btn btn-sm btn-ghost text-sm '><FaCommentAlt /></button>
+                                            <p className='absolute top-0 right-0'>{item.postComments.length}</p>
+                                        </div>
                                     </td>
                                     <td>
                                         <button

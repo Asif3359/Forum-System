@@ -84,7 +84,6 @@ const ManageUser = () => {
                     {/* head */}
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Badge</th>
@@ -95,7 +94,6 @@ const ManageUser = () => {
                     <tbody>
                         {
                             users.map((user, index) => <tr key={user._id}>
-                                <th>{index + 1}</th>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.badgeType || 'odl User'}</td>
@@ -104,7 +102,7 @@ const ManageUser = () => {
                                         onClick={() => handleMakeAdmin(user)}
                                         className="btn btn-sm bg-orange-500">
                                         <FaUsers className="text-white 
-                                        text-2xl"></FaUsers>
+                                        text-sm lg:text-2xl"></FaUsers>
                                     </button>}
                                 </td>
                                 <td>

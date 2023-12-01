@@ -325,7 +325,7 @@ const PostDetails = () => {
 
 
     return (
-        <div className='my-20 mx-10 p-2 rounded-lg border-2'>
+        <div className=' mx-3 my-10 lg:my-20 lg:mx-10 p-2 rounded-lg border-2'>
             <div className="card w-full ">
                 <div className="card-body space-y-4">
                     <h2 className="card-title gap-5">

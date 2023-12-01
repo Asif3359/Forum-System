@@ -44,7 +44,7 @@ const Dashboard = () => {
                     </div>
                     <label htmlFor="my-drawer-2" className="btn  drawer-button md:hidden"><FaList /></label>
                 </div>
-                <div className='px-10'>
+                <div className='lg:px-10'>
                     <Outlet></Outlet>
                 </div>
 
@@ -52,7 +52,7 @@ const Dashboard = () => {
             </div>
             <div className="drawer-side">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                <div className='bg-base-200 min-h-full py-10 w-1/2 md:w-80'>
+                <div className='bg-base-200 min-h-full py-10 w-4/5 md:w-80'>
                     <div className='flex flex-col justify-start items-center gap-3'>
                         <img src={logo1} className='w-12 rounded-full border-2' alt="" />
                         <p className='font-bold text-2xl text-blue-500'>Connect </p>
@@ -64,7 +64,7 @@ const Dashboard = () => {
                                 <>
                                     <li><NavLink to="/dashboard/adminProfile"> <span className='text-2xl mr-2'><FaUserCog /></span> Admin Profile</NavLink></li>
                                     <li><NavLink to="/dashboard/manageUser"> <span className='text-2xl mr-2'><FaUsersCog /></span> Manage Users</NavLink></li>
-                                    <li><NavLink to="/dashboard/comments"> <span className='text-2xl mr-2'><FaFlag /></span> Reported Comments</NavLink></li>
+                                    <li><NavLink to="/dashboard/comments"> <span className='text-2xl mr-2'><FaFlag/></span> Reported Comments</NavLink></li>
                                     <li><NavLink to="/dashboard/announcement"> <span className='text-2xl mr-2'><FaBell /></span> Make Announcement</NavLink></li>
                                     <div className='divider'></div>
                                     <li><NavLink to="/dashboard/myProfile"> <span className='text-2xl mr-2'><FaUser /></span> My Profile <FaBell />{feedBack.length}</NavLink></li>

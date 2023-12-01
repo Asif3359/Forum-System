@@ -72,7 +72,7 @@ const JoinUs = () => {
     return (
         <div>
             <div className="flex justify-between items-center gap-3">
-                <div className="w-3/5">
+                <div className=" hidden lg:block lg:w-3/5">
                     <img src={loginImage} className="w-4/5" alt="" />
                 </div>
                 <div className="space-y-3 flex-1">

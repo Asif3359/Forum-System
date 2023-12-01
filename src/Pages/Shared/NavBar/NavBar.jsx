@@ -4,6 +4,7 @@ import useAuth from '../../../Hooks/useAuth';
 import logo1 from "../../../assets/logo1.jpg"
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import React, { useEffect, useState } from 'react';
+import ourUsers from '../../../Hooks/ourUsers';
 
 const NavBar = () => {
 
@@ -12,19 +13,14 @@ const NavBar = () => {
 
     const axiosPublic = useAxiosPublic();
     const [announcement, setAnnouncements] = useState([]);
-    const [ourUser, setOurUser] = useState({});
+    // const [ourUser, setOurUser] = useState({});
+    const ourUser= ourUsers();
 
     useEffect(() => {
 
         axiosPublic.get('/announcement')
             .then(res => {
                 setAnnouncements(res.data)
-            })
-
-        axiosPublic.get(`/users/${user?.email}`)
-            .then(res => {
-                console.log(res.data);
-                setOurUser(res.data)
             })
 
     }, [user])
@@ -74,7 +70,7 @@ const NavBar = () => {
                     </div>
                     <div className='hidden md:flex justify-start items-center gap-3'>
                         <img src={logo1} className='w-12 rounded-full border-2' alt="" />
-                       <p className='font-bold text-2xl text-blue-500'>Connect </p>
+                        <p className='font-bold text-2xl text-blue-500'>Connect </p>
                     </div>
                 </div>
                 {/* <div className="navbar-center hidden lg:flex items-center">
@@ -89,7 +85,7 @@ const NavBar = () => {
                         }
                     </ul>
                     <div className='flex md:hidden justify-start items-center gap-3'>
-                       <p className='font-bold text-2xl text-blue-500'>Connect </p>
+                        <p className='font-bold text-2xl text-blue-500'>Connect </p>
                         <img src={logo1} className='w-12 rounded-full border-2' alt="" />
                     </div>
                 </div>

@@ -13,7 +13,7 @@ const Register = () => {
     const axiosPublic = useAxiosPublic();
 
     const navigate = useNavigate();
-    const location= useLocation();
+    const location = useLocation();
     const [fireBaseError, setFireBaseError] = useState("");
 
     const { googleSignIn, createUser, updateUserProfile } = useAuth();
@@ -36,7 +36,7 @@ const Register = () => {
                         const userInfo = {
                             name: data.name,
                             email: data.email,
-                            badgeType:"Bronze"
+                            badgeType: "Bronze"
                         }
                         console.log(userInfo);
 
@@ -74,7 +74,7 @@ const Register = () => {
                 const userInfo = {
                     email: result.user?.email,
                     name: result.user?.displayName,
-                    badgeType:"Bronze"
+                    badgeType: "Bronze"
                 }
                 console.log(userInfo);
 
@@ -103,7 +103,7 @@ const Register = () => {
     return (
         <div>
             <div className="flex justify-between items-center gap-3">
-                <div className="w-3/5">
+                <div className=" hidden lg:block lg:w-3/5">
                     <img src={loginImage} className="w-4/5" alt="" />
                 </div>
                 <div className="space-y-3 flex-1">
