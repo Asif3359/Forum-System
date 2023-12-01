@@ -23,9 +23,7 @@ const Post = ({ item, location }) => {
     }
 
     return (
-        <div onClick={handleNavigate} className=' flex flex-col justify-between hover:cursor-pointer  border-2 p-4 rounded-lg space-y-4 w-full hover:bg-base-200 translate-x-10 hover:scale-105
-        
-        transition ease-in-out delay-100  hover:-translate-y-1  duration-200'>
+        <div onClick={handleNavigate} className='  hover:cursor-pointer  border-2 p-4 rounded-lg space-y-4  hover:bg-base-200 hover:scale-105 transition ease-in-out delay-100  hover:-translate-y-1  duration-200'>
             <div className='flex justify-start gap-4 items-center'>
                 <img src={authorImg} alt="" className='w-16 rounded-full' />
                 <h1 className='text-xl font-bold'>{authorName}</h1>

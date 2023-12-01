@@ -108,31 +108,16 @@ const Home = () => {
 
 
     return (
-        <div className='space-y-10 mb-10'>
-            <div>
+        <div className='space-y-10 mb-10 container mx-auto'>
+            <div className=''>
                 <Banner popularTexts={popularTexts} selectTag={selectTag} handleSelectTag={handleSelectTag} handleSearch={handleSearch} ></Banner>
             </div>
-            <div className='mt-10 px-1 space-y-10'>
-                <div className='flex justify-between items-center '>
-                    <div className='w-3/4'>
-                        <label htmlFor="searchType" className="block text-sm font-medium text-gray-700">
-                            Select Search Type:
-                        </label>
-                        <select
-                            id="searchType"
-                            name="searchType"
-                            value={searchType}
-                            onChange={handleSearchTypeChange}
-                            className="mt-1 p-2 border border-gray-300 rounded-md"
-                        >
-                            <option value="normal">Normal Search</option>
-                            <option value="popular">Popular Search</option>
-                        </select>
-                    </div>
+            <div className='mt-10 space-y-10 p-2'>
+                <div className='flex flex-col gap-6 md:flex-row justify-between items-center  '>
                     {
                         announcement.length > 0 ?
                             <>
-                                <div className='w-1/4'>
+                                <div className=' w-full mid:w-3/4 mb-3 '>
                                     {
                                         announcement.slice(0, 1).map((item, index) => <div key={item._id}>
                                             <div className='flex justify-start gap-2 items-center'>
@@ -169,35 +154,47 @@ const Home = () => {
                             </> :
                             <></>
                     }
+                    <div className=' w-full md:w-1/4 mt-3'>
+                        <label htmlFor="searchType" className="block text-sm font-medium text-gray-700">
+                            Select Search Type:
+                        </label>
+                        <select
+                            id="searchType"
+                            name="searchType"
+                            value={searchType}
+                            onChange={handleSearchTypeChange}
+                            className="mt-1 p-2 border border-gray-300 rounded-md"
+                        >
+                            <option value="normal">Normal Search</option>
+                            <option value="popular">Popular Search</option>
+                        </select>
+                    </div>
+
 
                     {/*  */}
                 </div>
-                <div className='block md:flex flex-row-reverse justify-between items-start  gap-3'>
-                    {/* ... other code ... */}
-                    <div className=' flex-1 space-y-3'>
-                        <div>
-                            <h1 className='text-center text-2xl font-bold' >All Posts</h1>
-                        </div>
-                        <div className='flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
-                            {
-                                Array.isArray(postData) ? (
-                                    postData.map(item => (
-                                        <Post key={item._id} item={item}></Post>
-                                    ))
-                                ) : (
-                                    <div className=' flex justify-center items-center'>
-                                        <p>Loading...</p>
-                                    </div> // You can add a loading indicator
-                                )
-                            }
-                        </div>
+                <div >
+                    <h1 className='text-center text-2xl font-bold p-0' >All Posts</h1>
+                </div>
+                <div>
+                    <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-10' >
+                        {
+                            Array.isArray(postData) ? (
+                                postData.map(item => (
+                                    <Post key={item._id} item={item}></Post>
+                                ))
+                            ) : (
+                                <div className=' flex justify-center items-center'>
+                                    <p>Loading...</p>
+                                </div> // You can add a loading indicator
+                            )
+                        }
                     </div>
                 </div>
                 {
-
                     <div className='flex justify-center mt-4 mb-4'>
                         <ReactPaginate
-                            className='flex gap-10 border p-5 rounded-lg  paigaination'
+                            className='flex gap-1 lg:gap-10 border p-1 lg:p-5 rounded-lg  paigaination'
                             breakLabel="..."
                             nextLabel="next >"
                             onPageChange={handlePageClick}
@@ -223,13 +220,12 @@ const Home = () => {
 
                         />
                     </div>
-
                 }
 
 
             </div>
 
-        </div>
+        </div >
     );
 };
 
