@@ -19,6 +19,8 @@ import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
 import MyPostTable from "../Pages/Dashboard/MyPostTable/MyPostTable";
 import AnnouncementHome from "../Pages/Home/AnnouncementHome/AnnouncementHome";
+import PrivateRoute from "./privateRoute";
+import AdminRoute from "./adminRoute";
 
 const router = createBrowserRouter([
     {
@@ -32,11 +34,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/membership",
-                element: <Membership></Membership>
+                element: <PrivateRoute><Membership></Membership></PrivateRoute> 
             },
             {
                 path: "/announcement",
-                element: <AnnouncementHome></AnnouncementHome>
+                element:<AnnouncementHome></AnnouncementHome>
             },
             {
                 path: "/joinUs",
@@ -48,18 +50,18 @@ const router = createBrowserRouter([
             },
             {
                 path: "/payment/success/:tran_id",
-                element: <PaymentSuccess></PaymentSuccess>
+                element: <PrivateRoute><PaymentSuccess></PaymentSuccess></PrivateRoute>  
             },
             {
                 path: "/posts/:id",
-                element: <PostDetails></PostDetails>,
+                element:  <PrivateRoute><PostDetails></PostDetails></PrivateRoute>,
                 loader: ({ params }) => fetch(`http://localhost:5000/posts/${params.id}`)
             },
         ]
     },
     {
         path: "dashboard",
-        element: <Dashboard></Dashboard>,
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute> ,
         errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
@@ -86,19 +88,19 @@ const router = createBrowserRouter([
             // admin 
             {
                 path: "adminProfile",
-                element: <AdminProfile></AdminProfile>
+                element: <AdminRoute><AdminProfile></AdminProfile></AdminRoute>
             },
             {
                 path: "manageUser",
-                element: <ManageUser></ManageUser>
+                element: <AdminRoute><ManageUser></ManageUser></AdminRoute>
             },
             {
                 path: "comments",
-                element: <Comments></Comments>
+                element: <AdminRoute><Comments></Comments></AdminRoute>
             },
             {
                 path: "announcement",
-                element: <Announcement></Announcement>
+                element: <AdminRoute><Announcement></Announcement></AdminRoute>
             },
         ]
     },

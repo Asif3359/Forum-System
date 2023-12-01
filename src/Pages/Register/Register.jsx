@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 
 import loginImage from "../../assets/logIn.jpg"
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
@@ -13,6 +13,7 @@ const Register = () => {
     const axiosPublic = useAxiosPublic();
 
     const navigate = useNavigate();
+    const location= useLocation();
     const [fireBaseError, setFireBaseError] = useState("");
 
     const { googleSignIn, createUser, updateUserProfile } = useAuth();
@@ -53,7 +54,7 @@ const Register = () => {
                                         progress: undefined,
                                         theme: "light",
                                     });
-                                    navigate("/")
+                                    navigate(location?.state ? location.state : "/");
                                 }
                             })
 
@@ -90,7 +91,7 @@ const Register = () => {
                             progress: undefined,
                             theme: "light",
                         });
-                        navigate('/');
+                        navigate(location?.state ? location.state : "/");
                     })
 
 

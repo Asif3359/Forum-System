@@ -144,7 +144,7 @@ const Home = () => {
                                                 <div>
                                                     {
                                                         item?.AnnounceDescription?.length < 100 ? <> <p className='ml-3'>{item.AnnounceDescription} </p></> :
-                                                            <> <p className='ml-3'>{item?.AnnounceDescription?.slice(0, 100)}<span onClick={() => document.getElementById(`announcement${item._id}`).showModal()} className='btn btn-link no-underline' >...See More</span> </p></>
+                                                            <> <p className='ml-3'>{item?.AnnounceDescription?.slice(0, 100)}<span onClick={() => document.getElementById(`announcement${item._id}`).showModal()} className='btn btn-link no-underline lowercase' >...See More</span> </p></>
                                                     }
                                                 </div>
                                                 <dialog id={`announcement${item._id}`} className="modal">
@@ -163,7 +163,7 @@ const Home = () => {
                                         </div>)
                                     }
                                     <div>
-                                        <Link to="/announcement" className='btn btn-sm btn-link'>See All Announcement</Link>
+                                        <Link to="/announcement" className='btn btn-sm btn-link lowercase'>See All Announcement</Link>
                                     </div>
                                 </div>
                             </> :

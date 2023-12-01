@@ -46,7 +46,6 @@ const PostDetails = () => {
         postTime,
     } = postDetails;
 
-    console.log(postComments);
 
 
 
@@ -182,16 +181,36 @@ const PostDetails = () => {
         console.log(updatePostInfo);
         axiosSecure.patch(`/posts/${id}`, updatePostInfo)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 setCommentCount(commentCount + 1);
                 if (res.data.modifiedCount > 0) {
                     axiosSecure.get(`/posts/${id}`)
                         .then(res => {
-                            console.log(res.data);
+                            // console.log(res.data);
                             setPostDetails(res.data);
                             reset();
                         })
                 }
+            })
+        const postId = _id;
+        const postInfo = {
+            authorImg,
+            authorName,
+            authorEmail,
+            postTitle,
+            postDescription,
+            postTag,
+        }
+        const commentInfo = {
+            commentUser,
+            postId,
+            postInfo,
+            commentPost
+
+        }
+        axiosSecure.post('/comment', commentInfo)
+            .then(res => {
+                console.log(res.data);
             })
 
 
@@ -274,11 +293,11 @@ const PostDetails = () => {
         const commentPost = item.commentPost
         const commentId = item.commentId
         const commentUser = item.commentUser
-        const byReportUser=user.displayName
-        const byReportEmail=user.email
-        const byReportPhoto=user.photoURL
+        const byReportUser = user.displayName
+        const byReportEmail = user.email
+        const byReportPhoto = user.photoURL
 
-        const reportUser={
+        const reportUser = {
             byReportUser,
             byReportEmail,
             byReportPhoto

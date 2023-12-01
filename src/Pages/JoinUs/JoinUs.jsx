@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 
 import loginImage from "../../assets/logIn.jpg"
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
@@ -10,7 +10,8 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 const JoinUs = () => {
 
     const axiosPublic = useAxiosPublic();
-    const navigate= useNavigate();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const { googleSignIn, signIn } = useAuth();
     const {
@@ -36,7 +37,7 @@ const JoinUs = () => {
                     progress: undefined,
                     theme: "light",
                 });
-                navigate('/');
+                navigate(location?.state ? location.state : "/");
             })
     }
 
@@ -47,7 +48,7 @@ const JoinUs = () => {
                 const userInfo = {
                     email: result.user?.email,
                     name: result.user?.displayName,
-                    badgeType:'Bronze'
+                    badgeType: 'Bronze'
                 }
                 console.log(userInfo);
 
@@ -64,7 +65,7 @@ const JoinUs = () => {
                             progress: undefined,
                             theme: "light",
                         });
-                        navigate('/');
+                        navigate(location?.state ? location.state : "/");
                     })
             })
     }

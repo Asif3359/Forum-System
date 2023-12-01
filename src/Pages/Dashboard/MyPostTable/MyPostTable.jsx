@@ -5,6 +5,7 @@ import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import usePost from '../../../Hooks/usePost';
 import { useEffect, useState } from 'react';
 import { FaCommentAlt, FaTrashAlt, FaUsers } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const MyPostTable = () => {
 
@@ -32,14 +33,33 @@ const MyPostTable = () => {
     }, [user]);
 
     const handleDeleteUser = (id) => {
-        axiosSecure.delete(`/posts/${id}?&email=${user.email} `)
-            .then(res => {
-                console.log(res.data);
-                const updatedPosts = userPost.filter((post) => post._id !== id);
 
-                // Update the state with the filtered array
-                setUserPost(updatedPosts);
-            })
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/posts/${id}?&email=${user.email} `)
+                    .then(res => {
+                        // console.log(res.data);
+
+                        if (res.data.deletedCount > 0) {
+                            const updatedPosts = userPost.filter((post) => post._id !== id);
+                            setUserPost(updatedPosts);
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+            }
+        });
 
     }
     const handleComment = (id) => {

@@ -67,6 +67,11 @@ const Dashboard = () => {
                                     <li><NavLink to="/dashboard/comments">Reported Comments</NavLink></li>
                                     <li><NavLink to="/dashboard/announcement">Make Announcement</NavLink></li>
                                     <div className='divider'></div>
+                                    <li><NavLink to="/dashboard/myProfile">My Profile <FaBell />{feedBack.length}</NavLink></li>
+                                    <li><NavLink to="/dashboard/addPost">Add Post</NavLink></li>
+                                    <li><NavLink to="/dashboard/myPostTable">My Post Table</NavLink></li>
+                                    <li><NavLink to="/dashboard/myPost">My Post</NavLink></li>
+                                    <div className='divider'></div>
                                 </>
                                 :
                                 <>
