@@ -19,7 +19,7 @@ const MyPost = () => {
 
     useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:5000/posts?page=${currentPage}&limit=${limit}&email=${user.email}`)
+            fetch(`https://blood-donation-server-beta.vercel.app/posts?page=${currentPage}&limit=${limit}&email=${user.email}`)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
@@ -39,7 +39,7 @@ const MyPost = () => {
         setCurrentPage(e.selected + 1)
         movies.current = e.selected + 1
 
-        axiosSecure.get(`http://localhost:5000/posts?page=${e.selected + 1}&limit=${limit}&email=${user.email}`)
+        axiosSecure.get(`/posts?page=${e.selected + 1}&limit=${limit}&email=${user.email}`)
             .then(res => {
                 setUserPost(res.data.result);
             });

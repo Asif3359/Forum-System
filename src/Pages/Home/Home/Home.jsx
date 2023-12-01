@@ -63,7 +63,7 @@ const Home = () => {
 
     const handleSelectTag = (e) => {
         setSelectTag(e.target.value);
-        // `http://localhost:3001/api/posts/search?tag=${selectTag}`
+        // `https://blood-donation-server-beta.vercel.app/posts/search?tag=${selectTag}`
 
     };
 

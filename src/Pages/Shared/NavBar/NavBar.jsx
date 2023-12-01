@@ -74,7 +74,7 @@ const NavBar = () => {
                     </div>
                     <div className='hidden md:flex justify-start items-center gap-3'>
                         <img src={logo1} className='w-12 rounded-full border-2' alt="" />
-                        <p>Something </p>
+                       <p className='font-bold text-2xl text-blue-500'>Connect </p>
                     </div>
                 </div>
                 {/* <div className="navbar-center hidden lg:flex items-center">
@@ -89,7 +89,7 @@ const NavBar = () => {
                         }
                     </ul>
                     <div className='flex md:hidden justify-start items-center gap-3'>
-                        <p>Something </p>
+                       <p className='font-bold text-2xl text-blue-500'>Connect </p>
                         <img src={logo1} className='w-12 rounded-full border-2' alt="" />
                     </div>
                 </div>

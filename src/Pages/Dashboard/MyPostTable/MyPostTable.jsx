@@ -17,7 +17,7 @@ const MyPostTable = () => {
     const navigate = useNavigate();
     useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:5000/posts?&email=${user.email}`)
+            fetch(`https://blood-donation-server-beta.vercel.app/posts?&email=${user.email}`)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);

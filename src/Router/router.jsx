@@ -55,7 +55,7 @@ const router = createBrowserRouter([
             {
                 path: "/posts/:id",
                 element:  <PrivateRoute><PostDetails></PostDetails></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/posts/${params.id}`)
+                loader: ({ params }) => fetch(`https://blood-donation-server-beta.vercel.app/posts/${params.id}`)
             },
         ]
     },
@@ -83,7 +83,7 @@ const router = createBrowserRouter([
             {
                 path: "posts/:id",
                 element: <PostDetails></PostDetails>,
-                loader: ({ params }) => fetch(`http://localhost:5000/posts/${params.id}`)
+                loader: ({ params }) => fetch(`https://blood-donation-server-beta.vercel.app/posts/${params.id}`)
             },
             // admin 
             {

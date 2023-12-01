@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://blood-donation-server-beta.vercel.app'
 })
 const useAxiosSecure = () => {
     
@@ -32,7 +32,7 @@ export default useAxiosSecure;
 // import useAuth from "./useAuth";
 
 // const axiosSecure = axios.create({
-//     baseURL: 'http://localhost:5000'
+//     baseURL: 'https://blood-donation-server-beta.vercel.app/'
 // })
 // const useAxiosSecure = () => {
 //     const navigate = useNavigate();
