@@ -68,10 +68,7 @@ const MyPost = () => {
                     renderOnZeroPageCount={handlePageClick}
                     breakClassName="page-item"
                     breakLinkClassName="page-link"
-
-
                     marginPagesDisplayed={2}
-
                     containerClassName="pagination justify-content-center"
                     pageClassName="page-item"
                     pageLinkClassName="page-link"
