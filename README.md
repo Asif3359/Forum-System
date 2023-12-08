@@ -12,3 +12,6 @@
 <li>Add Payment system (SSL) </li>
 <li>implemet JWT </li>
 <li> Pagination functionality (per page 5 post)</li>
+<li> Like, Comment and replay functionality</li>
+<li> Report functionality </li>
+<li> post share (using react share component)</li>
