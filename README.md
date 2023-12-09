@@ -15,3 +15,15 @@
 <li> Like, Comment and replay functionality</li>
 <li> Report functionality </li>
 <li> post share (using react share component)</li>
+
+## Tools i use 
+<li>HTML</li>
+<li>CSS</li>
+<li>React js</li>
+<li>Tailwindcss</li>
+<li>Daisy ui</li>
+<li>Backend(mongodb)</li>
+<li>Express.js</li>
+<li>Authentication(fireBase)</li>
+<li>Client site host(Firebase)</li>
+<li>Server site host (vercel) </li>
