@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaBell, FaFlag, FaHome, FaList, FaRegEdit, FaRegGem, FaTable, FaThLarge, FaUser, FaUserCog, FaUsersCog } from 'react-icons/fa';
 import { NavLink, Outlet } from 'react-router-dom';
 import logo1 from "../../../assets/logo1.jpg"
-import useAuth from '../../../Hooks/useAuth';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import { useContext } from 'react';
 import { AuthContext } from '../../../Providers/AuthProvider';
@@ -66,11 +65,13 @@ const Dashboard = () => {
                                     <li><NavLink to="/dashboard/manageUser"> <span className='text-2xl mr-2'><FaUsersCog /></span> Manage Users</NavLink></li>
                                     <li><NavLink to="/dashboard/comments"> <span className='text-2xl mr-2'><FaFlag/></span> Reported Comments</NavLink></li>
                                     <li><NavLink to="/dashboard/announcement"> <span className='text-2xl mr-2'><FaBell /></span> Make Announcement</NavLink></li>
+                                    <li><NavLink to="/dashboard/usersFeedback"> <span className='text-2xl mr-2'><FaBell /></span> See FeedBack</NavLink></li>
                                     <div className='divider'></div>
                                     <li><NavLink to="/dashboard/myProfile"> <span className='text-2xl mr-2'><FaUser /></span> My Profile <FaBell />{feedBack.length}</NavLink></li>
                                     <li><NavLink to="/dashboard/addPost"> <span className='text-2xl mr-2'><FaRegEdit /></span> Add Post</NavLink></li>
                                     <li><NavLink to="/dashboard/myPostTable"> <span className='text-2xl mr-2'><FaTable /></span> My Post Table</NavLink></li>
                                     <li><NavLink to="/dashboard/myPost"> <span className='text-2xl mr-2'><FaThLarge /></span> My Post</NavLink></li>
+                                    <li><NavLink to="/dashboard/feedBack"> <span className='text-2xl mr-2'><FaThLarge /></span>Give Feed Back</NavLink></li>
                                     <div className='divider'></div>
                                 </>
                                 :
@@ -79,6 +80,7 @@ const Dashboard = () => {
                                     <li><NavLink to="/dashboard/addPost"> <span className='text-2xl mr-2'><FaRegEdit /></span> Add Post</NavLink></li>
                                     <li><NavLink to="/dashboard/myPostTable"><span className='text-2xl mr-2'><FaTable /></span> My Post Table</NavLink></li>
                                     <li><NavLink to="/dashboard/myPost"><span className='text-2xl mr-2'><FaThLarge /></span> My Post</NavLink></li>
+                                    <li><NavLink to="/dashboard/feedBack"><span className='text-2xl mr-2'><FaThLarge /></span> Give Feed Back</NavLink></li>
                                     <div className='divider'></div>
                                 </>
                         }

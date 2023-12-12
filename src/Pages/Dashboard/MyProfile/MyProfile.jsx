@@ -11,6 +11,7 @@ const MyProfile = () => {
     const axiosPublic = useAxiosPublic();
     const [ourUser, setOurUser] = useState({});
     const [feedBack, setFeedback] = useState([]);
+    const [feedBackReplay, setFeedBackReplay] = useState([]);
     const location = useLocation();
 
     useEffect(() => {
@@ -34,8 +35,13 @@ const MyProfile = () => {
 
             axiosPublic.get(`/feedback/${user.email}`)
                 .then(res => {
-                    console.log("Feedback",res.data)
+                    console.log("Feedback", res.data)
                     setFeedback(res.data);
+                });
+            axiosPublic.get(`/feedbackReplay/${user.email}`)
+                .then(res => {
+                    console.log("Feedback", res.data)
+                    setFeedBackReplay(res.data);
                 })
         }
     }, [user]);
@@ -55,11 +61,22 @@ const MyProfile = () => {
             </div>
             <div>
                 {
-                    Array.isArray(feedBack)?(
-                        feedBack.slice().map((item, index)=> <div key={index}>
-                            <p>  {index+1} Your FeedBack: {item.feedbackComment}</p>
+                    Array.isArray(feedBack) ? (
+                        feedBack.slice().map((item, index) => <div key={index}>
+                            <p>  {index + 1} Your FeedBack: {item.feedbackComment}</p>
                         </div>)
-                    ):(
+                    ) : (
+                        <p>Loading ....</p>
+                    )
+                }
+            </div>
+            <div>
+                {
+                    Array.isArray(feedBackReplay) ? (
+                        feedBackReplay.map((item, index) => <div key={index}>
+                            <p>  {index + 1} Your FeedBack: {item.freedBackReplay}</p>
+                        </div>)
+                    ) : (
                         <p>Loading ....</p>
                     )
                 }

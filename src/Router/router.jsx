@@ -21,6 +21,8 @@ import MyPostTable from "../Pages/Dashboard/MyPostTable/MyPostTable";
 import AnnouncementHome from "../Pages/Home/AnnouncementHome/AnnouncementHome";
 import PrivateRoute from "./privateRoute";
 import AdminRoute from "./adminRoute";
+import UserFeedBack from "../Pages/Dashboard/UserFeedBack/UserFeedBack";
+import UsersFeedbacks from "../Pages/Dashboard/usersFeedbacks/usersFeedbacks";
 
 const router = createBrowserRouter([
     {
@@ -85,6 +87,10 @@ const router = createBrowserRouter([
                 element: <PostDetails></PostDetails>,
                 loader: ({ params }) => fetch(`https://blood-donation-server-beta.vercel.app/posts/${params.id}`)
             },
+            {
+                path: "feedBack",
+                element: <UserFeedBack></UserFeedBack>,
+            },
             // admin 
             {
                 path: "adminProfile",
@@ -101,6 +107,10 @@ const router = createBrowserRouter([
             {
                 path: "announcement",
                 element: <AdminRoute><Announcement></Announcement></AdminRoute>
+            },
+            {
+                path: "usersFeedback",
+                element: <AdminRoute><UsersFeedbacks></UsersFeedbacks></AdminRoute>
             },
         ]
     },
